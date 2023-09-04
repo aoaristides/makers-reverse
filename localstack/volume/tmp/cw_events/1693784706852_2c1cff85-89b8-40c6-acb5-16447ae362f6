@@ -1,0 +1,1 @@
+{"Source": "aws.ssm", "Detail": "{\"name\": \"/config/makersweb-reverse_consumer_localstack/reverse.by.billet.queue.name\", \"operation\": \"Create\"}", "DetailType": "Parameter Store Change"}

@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
+    image: localstack/localstack
+    network_mode: bridge
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=${DEBUG-}
+      - SERVICES=apigateway,cloudformation,cloudwatch,dynamodb,ec2,es,firehose,iam,kinesis,kms,lambda,route53,redshift,s3,secretmanager,ses,sns,sqs,ssm,stepfunctions,sts
+      - DEFAULT_REGION=us-east-1
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=localstackKeyId
+      - AWS_SECRET_ACCESS_KEY=Tulipa89
+      - LAMBDA_EXECUTOR=local
+      - EDGE_PORT=4566
+      - HOST_TMP_FOLDER=${TMPDIR:-/tmp/}localstack
+      - DATA_DIR=/tmp/localstack/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
