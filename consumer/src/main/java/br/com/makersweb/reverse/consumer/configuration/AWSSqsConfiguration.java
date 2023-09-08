@@ -1,4 +1,4 @@
-package br.com.makersweb.reverse.consumer.infrastructure.configuration;
+package br.com.makersweb.reverse.consumer.configuration;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -7,7 +7,7 @@ import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import io.awspring.cloud.messaging.config.QueueMessageHandlerFactory;
 import io.awspring.cloud.messaging.support.NotificationMessageArgumentResolver;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -20,23 +20,17 @@ import java.util.List;
  * @author aaristides
  */
 @Configuration
-public class AWSConfiguration {
+public class AWSSqsConfiguration {
 
-    @Value("${cloud.aws.credentials.secret-key}")
-    public String ACCESS_KEY;
+    private ParameterStoreConfiguration configuration;
 
-    @Value("${cloud.aws.credentials.access-key}")
-    public String SECRET_KEY;
-
-    @Value("${cloud.aws.sqs.endpoint}")
-    public String ENDPOINT_SQS;
-
-    @Value("${cloud.aws.region.static}")
-    public String REGION;
+    public AWSSqsConfiguration(@Autowired ParameterStoreConfiguration configuration) {
+        this.configuration = configuration;
+    }
 
     @Bean
     public AwsClientBuilder.EndpointConfiguration endpointConfiguration() {
-        return new AwsClientBuilder.EndpointConfiguration(ENDPOINT_SQS, REGION);
+        return new AwsClientBuilder.EndpointConfiguration(configuration.getEndpoint(), configuration.getRegion());
     }
 
     @Bean
@@ -65,16 +59,8 @@ public class AWSConfiguration {
         return converter;
     }
 
-    private AwsClientBuilder.EndpointConfiguration getEndpointConfiguration(String endpoint) {
-        return new AwsClientBuilder.EndpointConfiguration(endpoint, REGION);
-    }
-
-    private AWSStaticCredentialsProvider getCredentialsProvider() {
-        return new AWSStaticCredentialsProvider(getBasicAWSCredentials());
-    }
-
     private BasicAWSCredentials getBasicAWSCredentials() {
-        return new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);
+        return new BasicAWSCredentials(configuration.getAccessKey(), configuration.getSecretKey());
     }
 
 }
