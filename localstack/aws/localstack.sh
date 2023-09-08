@@ -4,11 +4,16 @@
 ##aws --endpoint http://localhost:4566 --profile localstack secretsmanager create-secret --name /secret/makersweb-reverse_consumer_localstack --description "Segredos para acesso a API da Marvel" --secret-string "{\"ts\":\"1685926279\",\"apiKey\":\"df755aa50238c2ba693230ceb631bfd5\",\"hash\":\"a887722811b5800a34eb8c40e10d48bd\"}"
 
 echo ### Criando Chaves no AWS Parameter Store do LocalStack...
-aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse_consumer_localstack/receive.reverse.order.queue.name" --value "recebeReversaDoPedidoQueue" --type String
-aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse_consumer_localstack/reverse.by.billet.queue.name" --value "reversaPorBoletoQueue" --type String
-aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse_consumer_localstack/reverse.by.credit-card.queue.name" --value "reversaPorCartaoCreditoQueue" --type String
-aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse_consumer_localstack/reverse.by.debit-card.queue.name" --value "reversaPorCartaoDebitoQueue" --type String
-aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse_consumer_localstack/reverse.by.pix.queue.name" --value "reversaPorPixQueue" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/receive.reverse.order.queue.name" --value "recebeReversaDoPedidoQueue" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/reverse.by.billet.queue.name" --value "reversaPorBoletoQueue" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/reverse.by.credit-card.queue.name" --value "reversaPorCartaoCreditoQueue" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/reverse.by.debit-card.queue.name" --value "reversaPorCartaoDebitoQueue" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/reverse.by.pix.queue.name" --value "reversaPorPixQueue" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/receive.reverse.notification.topic.name" --value "reversaRecebidaNotification" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/credentials.secret-key" --value "Tulipa89" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/credentials.access-key" --value "localstackKeyId" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/credentials.endpoint" --value "http://localhost:4566" --type String
+aws --endpoint http://localhost:4566 --profile localstack ssm put-parameter --name "/config/makersweb-reverse-consumer_localstack/credentials.region.static" --value "us-east-1" --type String
 
 echo ### Criando Queue(Standard) no SQS do LocalStack...
 aws --endpoint http://localhost:4566 --profile localstack sqs create-queue --queue-name recebeReversaDoPedidoQueue
