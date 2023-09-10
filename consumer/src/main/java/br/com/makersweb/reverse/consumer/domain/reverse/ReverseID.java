@@ -12,7 +12,7 @@ public class ReverseID extends Identifier {
 
     private final String value;
 
-    public ReverseID(final String value) {
+    private ReverseID(final String value) {
         Objects.requireNonNull(value);
         this.value = value;
     }

@@ -12,7 +12,7 @@ public class PaymentID extends Identifier {
 
     private final String value;
 
-    public PaymentID(final String value) {
+    private PaymentID(final String value) {
         Objects.requireNonNull(value);
         this.value = value;
     }

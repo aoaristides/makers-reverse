@@ -1,6 +1,7 @@
 package br.com.makersweb.reverse.consumer.domain.entries;
 
 import br.com.makersweb.reverse.consumer.domain.AggregateRoot;
+import br.com.makersweb.reverse.consumer.domain.validation.ValidationHandler;
 
 import java.math.BigDecimal;
 
@@ -48,6 +49,11 @@ public class Entry extends AggregateRoot<EntryID> {
     ) {
         final var anId = EntryID.unique();
         return new Entry(anId, aProductCode, aProductName, aQuantity, aBasePrice, aTotalPrice, aSize, aUrl);
+    }
+
+    @Override
+    public void validate(final ValidationHandler handler) {
+
     }
 
     public EntryID getId() {

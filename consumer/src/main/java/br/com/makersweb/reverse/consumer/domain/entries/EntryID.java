@@ -12,7 +12,7 @@ public class EntryID extends Identifier {
 
     private final String value;
 
-    public EntryID(final String value) {
+    private EntryID(final String value) {
         Objects.requireNonNull(value);
         this.value = value;
     }

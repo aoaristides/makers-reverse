@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - ./.docker/prometheus:/etc/prometheus
+#    command:
+#      - "--config.file=/etc/prometheus/prometheus.yml"
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana
+#    ports:
+#      - "3000:3000"
+#    environment:
+#      - GF_SECURITY_ADMIN_USER=admin
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+#    volumes:
+#      - ./.docker/grafana_data:/var/lib/grafana
+
+  mysql:
+    container_name: makers_reverse_mysql
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=Tulipa123!
+      - MYSQL_DATABASE=reverse_db
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "33006:3306"
+    networks:
+      - reverse_network
+
+networks:
+  reverse_network:

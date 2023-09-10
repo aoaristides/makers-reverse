@@ -1,6 +1,10 @@
 package br.com.makersweb.reverse.consumer.domain.payment;
 
 import br.com.makersweb.reverse.consumer.domain.AggregateRoot;
+import br.com.makersweb.reverse.consumer.domain.payment.billet.Billet;
+import br.com.makersweb.reverse.consumer.domain.payment.card.Card;
+import br.com.makersweb.reverse.consumer.domain.payment.pix.Pix;
+import br.com.makersweb.reverse.consumer.domain.validation.ValidationHandler;
 
 import java.math.BigDecimal;
 
@@ -76,6 +80,11 @@ public class Payment extends AggregateRoot<PaymentID> {
                 payment.billet,
                 payment.pix
         );
+    }
+
+    @Override
+    public void validate(final ValidationHandler handler) {
+
     }
 
     public PaymentID getId() {

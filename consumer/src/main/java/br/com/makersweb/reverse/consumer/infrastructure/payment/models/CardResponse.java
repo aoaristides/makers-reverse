@@ -1,0 +1,28 @@
+package br.com.makersweb.reverse.consumer.infrastructure.payment.models;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * @author aaristides
+ * @param id
+ * @param cardNumber
+ * @param holder
+ * @param brand
+ * @param expirationDate
+ * @param securityCode
+ * @param cardToken
+ * @param installments
+ * @param saveCard
+ */
+record CardResponse(
+        @JsonProperty("id") String id,
+        @JsonProperty("card_number") String cardNumber,
+        @JsonProperty("holder") String holder,
+        @JsonProperty("brand") String brand,
+        @JsonProperty("expiration_date") String expirationDate,
+        @JsonProperty("security_code") String securityCode,
+        @JsonProperty("card_token") String cardToken,
+        @JsonProperty("installments") Integer installments,
+        @JsonProperty("save_card") boolean saveCard
+) {
+}
