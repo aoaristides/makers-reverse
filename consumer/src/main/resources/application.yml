@@ -13,6 +13,8 @@ server:
 spring:
   application:
     name: makersweb-reverse-consumer
+  profiles:
+    default: development
   mvc:
     throw-exception-if-no-handler-found: true
   web:
@@ -24,9 +26,9 @@ spring:
     password: ${mysql.password}
     hikari:
       auto-commit: false
-      connection-timeout: 250 # É uma configuração em milliseconds. O ideal é manter baixo para que estoure timeout logo e não prenda as threads.
-      max-lifetime: 600000 # Tempo máximo que uma conexão pode ficar aberta (10 min) - security.
-      maximum-pool-size: 20 # Mantemos até no máx 20 conexões com o banco de dados. O ideal é manter baixo mesmo, pois é algo custoso para o banco gerenciar. https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
+      connection-timeout: 250 # ï¿½ uma configuraï¿½ï¿½o em milliseconds. O ideal ï¿½ manter baixo para que estoure timeout logo e nï¿½o prenda as threads.
+      max-lifetime: 600000 # Tempo mï¿½ximo que uma conexï¿½o pode ficar aberta (10 min) - security.
+      maximum-pool-size: 20 # Mantemos atï¿½ no mï¿½x 20 conexï¿½es com o banco de dados. O ideal ï¿½ manter baixo mesmo, pois ï¿½ algo custoso para o banco gerenciar. https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
       minimum-idle: 10
       pool-name: master
   jpa:
@@ -38,9 +40,10 @@ spring:
       "[hibernate.dialect]": org.hibernate.dialect.MySQL8Dialect
       "[hibernate.generate_statistics]": false
       "[hibernate.connection.provider_disables_autocommit]": true
-      # Para aumentar a performance ao máximo, desabilitamos o auto-commit e o open-in-view.
+      # Para aumentar a performance ao mï¿½ximo, desabilitamos o auto-commit e o open-in-view.
       # https://vladmihalcea.com/why-you-should-always-use-hibernate-connection-provider_disables_autocommit-for-resource-local-jpa-transactions/
 
+## AWS Cloud
 cloud:
   aws:
     credentials:
@@ -54,3 +57,29 @@ cloud:
       endpoint: http://localhost:4566
     sns:
       endpoint: http://localhost:4566
+
+## SQS Recebe Reversa | SNS Topic Reversa Recebida
+receive:
+  reverse:
+    notification:
+      topic:
+        name: reversaRecebidaNotification
+    order:
+      queue:
+        name: recebeReversaDoPedidoQueue
+
+## SQS Fanout
+reverse:
+  by:
+    billet:
+      queue:
+        name: reversaPorBoletoQueue
+    credit-card:
+      queue:
+        name: reversaPorCartaoCreditoQueue
+    debit-card:
+      queue:
+        name: reversaPorCartaoDebitoQueue
+    pix:
+      queue:
+        name: reversaPorPixQueue

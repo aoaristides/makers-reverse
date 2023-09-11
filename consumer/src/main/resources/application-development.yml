@@ -1,0 +1,5 @@
+mysql:
+  username: root
+  password: Tulipa123!
+  schema: reverse_db
+  url: localhost:33006

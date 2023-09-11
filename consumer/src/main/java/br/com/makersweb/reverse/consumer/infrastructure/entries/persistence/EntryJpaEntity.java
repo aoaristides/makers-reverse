@@ -1,11 +1,9 @@
 package br.com.makersweb.reverse.consumer.infrastructure.entries.persistence;
 
 import br.com.makersweb.reverse.consumer.domain.entries.EntryID;
+import br.com.makersweb.reverse.consumer.infrastructure.reverse.persistence.ReverseJpaEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
@@ -38,6 +36,9 @@ public class EntryJpaEntity {
 
     @Column(name = "url", nullable = false)
     private String url;
+
+    @ManyToOne
+    private ReverseJpaEntity reverse;
 
     public EntryJpaEntity() {}
 
@@ -119,5 +120,13 @@ public class EntryJpaEntity {
     public EntryJpaEntity setUrl(String url) {
         this.url = url;
         return this;
+    }
+
+    public ReverseJpaEntity getReverse() {
+        return reverse;
+    }
+
+    public void setReverse(ReverseJpaEntity reverse) {
+        this.reverse = reverse;
     }
 }

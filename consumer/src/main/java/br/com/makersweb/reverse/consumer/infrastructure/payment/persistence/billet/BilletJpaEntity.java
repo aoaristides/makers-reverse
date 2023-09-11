@@ -24,7 +24,7 @@ public class BilletJpaEntity {
     @Column(name = "days_to_expire")
     private Integer daysToExpire;
 
-    @Column(name = "bar_code")
+    @Column(name = "link")
     private String link;
 
     @Column(name = "bar_code")
