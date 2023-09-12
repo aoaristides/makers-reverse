@@ -2,6 +2,7 @@ package br.com.makersweb.reverse.consumer.infrastructure.payment;
 
 import br.com.makersweb.reverse.consumer.domain.payment.pix.Pix;
 import br.com.makersweb.reverse.consumer.domain.payment.pix.PixGateway;
+import br.com.makersweb.reverse.consumer.infrastructure.payment.persistence.pix.PixJpaEntity;
 import br.com.makersweb.reverse.consumer.infrastructure.payment.persistence.pix.PixRepository;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,10 @@ public class PixMySQLGateway implements PixGateway {
 
     @Override
     public Pix create(final Pix aPix) {
-        return null;
+        return save(aPix);
+    }
+
+    private Pix save(final Pix aPix) {
+        return this.repository.save(PixJpaEntity.from(aPix)).toAggregate();
     }
 }

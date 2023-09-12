@@ -36,7 +36,7 @@ public class BilletJpaEntity {
 
     public BilletJpaEntity() {}
 
-    public BilletJpaEntity(
+    private BilletJpaEntity(
             final String id,
             final LocalDate expirationDate,
             final Integer daysToExpire,

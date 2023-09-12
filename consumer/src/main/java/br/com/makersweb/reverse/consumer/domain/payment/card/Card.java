@@ -63,6 +63,44 @@ public class Card extends AggregateRoot<CardID> {
         );
     }
 
+    public static Card with(
+            final CardID anId,
+            final String aCardNumber,
+            final String aHolder,
+            final String aBrand,
+            final String aExpirationDate,
+            final String aSecurityCode,
+            final String aCardToken,
+            final Integer aInstallments,
+            final boolean isSaveCard
+    ) {
+        return new Card(
+                anId,
+                aCardNumber,
+                aHolder,
+                aBrand,
+                aExpirationDate,
+                aSecurityCode,
+                aCardToken,
+                aInstallments,
+                isSaveCard
+        );
+    }
+
+    public static Card with(final Card aCard) {
+        return with(
+                aCard.getId(),
+                aCard.cardNumber,
+                aCard.holder,
+                aCard.brand,
+                aCard.expirationDate,
+                aCard.securityCode,
+                aCard.cardToken,
+                aCard.installments,
+                aCard.saveCard
+        );
+    }
+
     @Override
     public void validate(final ValidationHandler handler) {
 

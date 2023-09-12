@@ -1,12 +1,14 @@
 package br.com.makersweb.reverse.consumer.domain.payment;
 
 import br.com.makersweb.reverse.consumer.domain.AggregateRoot;
-import br.com.makersweb.reverse.consumer.domain.payment.billet.Billet;
-import br.com.makersweb.reverse.consumer.domain.payment.card.Card;
-import br.com.makersweb.reverse.consumer.domain.payment.pix.Pix;
+import br.com.makersweb.reverse.consumer.domain.payment.billet.BilletID;
+import br.com.makersweb.reverse.consumer.domain.payment.card.CardID;
+import br.com.makersweb.reverse.consumer.domain.payment.pix.PixID;
 import br.com.makersweb.reverse.consumer.domain.validation.ValidationHandler;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * @author aaristides
@@ -15,17 +17,17 @@ public class Payment extends AggregateRoot<PaymentID> {
 
     private PaymentType type;
     private BigDecimal amount;
-    private Card card;
-    private Billet billet;
-    private Pix pix;
+    private CardID card;
+    private BilletID billet;
+    private PixID pix;
 
     private Payment(
             final PaymentID anId,
             final PaymentType aType,
             final BigDecimal aAmount,
-            final Card aCard,
-            final Billet aBillet,
-            final Pix aPix
+            final CardID aCard,
+            final BilletID aBillet,
+            final PixID aPix
     ) {
         super(anId);
         this.type = aType;
@@ -36,34 +38,39 @@ public class Payment extends AggregateRoot<PaymentID> {
     }
 
     public static Payment newPayment(
-            final PaymentType aType,
+            final String aType,
             final BigDecimal aAmount,
-            final Card aCard,
-            final Billet aBillet,
-            final Pix aPix
+            final String aCard,
+            final String aBillet,
+            final String aPix
     ) {
         final var anId = PaymentID.unique();
+        final var type = paymentTypeFromString(aType);
+        final var card = StringUtils.isNotEmpty(aCard) ? CardID.from(aCard) : null;
+        final var billet = StringUtils.isNotEmpty(aBillet) ? BilletID.from(aBillet) : null;
+        final var pix = StringUtils.isNotEmpty(aPix) ? PixID.from(aPix) : null;
         return new Payment(
                 anId,
-                aType,
+                type,
                 aAmount,
-                aCard,
-                aBillet,
-                aPix
+                card,
+                billet,
+                pix
         );
     }
 
     public static Payment with(
             final PaymentID anId,
-            final PaymentType aType,
+            final String aType,
             final BigDecimal aAmount,
-            final Card aCard,
-            final Billet aBillet,
-            final Pix aPix
+            final CardID aCard,
+            final BilletID aBillet,
+            final PixID aPix
     ) {
+        final var type = paymentTypeFromString(aType);
         return new Payment(
                 anId,
-                aType,
+                type,
                 aAmount,
                 aCard,
                 aBillet,
@@ -74,12 +81,18 @@ public class Payment extends AggregateRoot<PaymentID> {
     public static Payment with(final Payment payment) {
         return with(
                 payment.getId(),
-                payment.type,
+                payment.type.name(),
                 payment.amount,
                 payment.card,
                 payment.billet,
                 payment.pix
         );
+    }
+
+    private static PaymentType paymentTypeFromString(final String aType) {
+        return Arrays.stream(PaymentType.values())
+                .filter(type -> aType.equalsIgnoreCase(type.name()))
+                .findFirst().orElse(null);
     }
 
     @Override
@@ -99,15 +112,15 @@ public class Payment extends AggregateRoot<PaymentID> {
         return amount;
     }
 
-    public Card getCard() {
+    public CardID getCard() {
         return card;
     }
 
-    public Billet getBillet() {
+    public BilletID getBillet() {
         return billet;
     }
 
-    public Pix getPix() {
+    public PixID getPix() {
         return pix;
     }
 }

@@ -23,6 +23,8 @@
         <spring.cloud.version>2021.0.8</spring.cloud.version>
         <spring.cloud.aws.version>2.4.4</spring.cloud.aws.version>
         <org.springdoc.version>1.6.8</org.springdoc.version>
+        <caelum-stella-core.version>2.1.6</caelum-stella-core.version>
+        <vavr.version>0.10.4</vavr.version>
     </properties>
 
     <dependencies>
@@ -62,6 +64,18 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${org.springdoc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.com.caelum.stella</groupId>
+            <artifactId>caelum-stella-core</artifactId>
+            <version>${caelum-stella-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>${vavr.version}</version>
         </dependency>
 
         <dependency>

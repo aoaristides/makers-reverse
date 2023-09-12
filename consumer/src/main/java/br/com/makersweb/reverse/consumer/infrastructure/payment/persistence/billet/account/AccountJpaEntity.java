@@ -38,7 +38,7 @@ public class AccountJpaEntity {
 
     public AccountJpaEntity() {}
 
-    public AccountJpaEntity(
+    private AccountJpaEntity(
             final String id,
             final String name,
             final String type,

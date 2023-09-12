@@ -51,6 +51,32 @@ public class Entry extends AggregateRoot<EntryID> {
         return new Entry(anId, aProductCode, aProductName, aQuantity, aBasePrice, aTotalPrice, aSize, aUrl);
     }
 
+    public static Entry with(
+            final EntryID anId,
+            final String aProductCode,
+            final String aProductName,
+            final Integer aQuantity,
+            final BigDecimal aBasePrice,
+            final BigDecimal aTotalPrice,
+            final String aSize,
+            final String aUrl
+    ) {
+        return new Entry(anId, aProductCode, aProductName, aQuantity, aBasePrice, aTotalPrice, aSize, aUrl);
+    }
+
+    public static Entry with(final Entry aEntry) {
+        return with(
+                aEntry.getId(),
+                aEntry.productCode,
+                aEntry.productName,
+                aEntry.quantity,
+                aEntry.basePrice,
+                aEntry.totalPrice,
+                aEntry.size,
+                aEntry.url
+        );
+    }
+
     @Override
     public void validate(final ValidationHandler handler) {
 

@@ -1,5 +1,6 @@
 package br.com.makersweb.reverse.consumer.infrastructure.customer.persistence;
 
+import br.com.makersweb.reverse.consumer.domain.customer.Customer;
 import br.com.makersweb.reverse.consumer.domain.customer.CustomerID;
 
 import javax.persistence.Column;
@@ -33,7 +34,24 @@ public class CustomerJpaEntity {
     @Column(name = "birth_day")
     private LocalDate birthDay;
 
-    public CustomerJpaEntity() {}
+    public CustomerJpaEntity() {
+    }
+
+    private CustomerJpaEntity(
+            final String id,
+            final String name,
+            final String document,
+            final String phone,
+            final String mail,
+            final LocalDate birthDay
+    ) {
+        this.id = id;
+        this.name = name;
+        this.document = document;
+        this.phone = phone;
+        this.mail = mail;
+        this.birthDay = birthDay;
+    }
 
     private CustomerJpaEntity(final CustomerID aCustomerId) {
         this.id = aCustomerId.getValue();
@@ -41,6 +59,28 @@ public class CustomerJpaEntity {
 
     public static CustomerJpaEntity from(final CustomerID aCustomerId) {
         return new CustomerJpaEntity(aCustomerId);
+    }
+
+    public static CustomerJpaEntity from(final Customer aCustomer) {
+        return new CustomerJpaEntity(
+                aCustomer.getId().getValue(),
+                aCustomer.getName(),
+                aCustomer.getDocument(),
+                aCustomer.getPhone(),
+                aCustomer.getMail(),
+                aCustomer.getBirthDay()
+        );
+    }
+
+    public Customer toAggregate() {
+        return Customer.with(
+                CustomerID.from(getId()),
+                getName(),
+                getDocument(),
+                getPhone(),
+                getMail(),
+                getBirthDay()
+        );
     }
 
     public String getId() {

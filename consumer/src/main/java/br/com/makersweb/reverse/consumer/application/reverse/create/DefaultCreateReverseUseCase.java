@@ -6,9 +6,14 @@ import br.com.makersweb.reverse.consumer.domain.entries.EntryID;
 import br.com.makersweb.reverse.consumer.domain.payment.PaymentID;
 import br.com.makersweb.reverse.consumer.domain.reverse.Reverse;
 import br.com.makersweb.reverse.consumer.domain.reverse.ReverseGateway;
+import br.com.makersweb.reverse.consumer.domain.validation.handler.Notification;
+import io.vavr.control.Either;
 
 import java.util.List;
 import java.util.Objects;
+
+import static io.vavr.API.Left;
+import static io.vavr.API.Try;
 
 /**
  * @author aaristides
@@ -22,7 +27,7 @@ public class DefaultCreateReverseUseCase extends CreateReverseUseCase {
     }
 
     @Override
-    public CreateReverseOutput execute(final CreateReverseCommand aCommand) {
+    public Either<Notification, CreateReverseOutput> execute(final CreateReverseCommand aCommand) {
         final var originalOrder = aCommand.originalOrder();
         final var reverseOrder = aCommand.reverseOrder();
         final var type = aCommand.type();
@@ -39,26 +44,36 @@ public class DefaultCreateReverseUseCase extends CreateReverseUseCase {
         final var entries = aCommand.entries();
         final var payment = aCommand.payment();
 
-        final var aReverse = Reverse.newReverse(
-                                                originalOrder,
-                                                reverseOrder,
-                                                type,
-                                                createdOrder,
-                                                createdReverse,
-                                                deliveryCost,
-                                                discount,
-                                                totalValue,
-                                                estimatedDeliveryTime,
-                                                deliveryDate,
-                                                deliveryMode,
-                                                CustomerID.from(customer),
-                                                AddressID.from(address),
-                                                toEntryID(entries),
-                                                PaymentID.from(payment)
-                                        );
+        final var notification = Notification.create();
 
-        return CreateReverseOutput.from(this.reverseGateway.create(aReverse));
+        final var aReverse = Reverse.newReverse(
+                originalOrder,
+                reverseOrder,
+                type,
+                createdOrder,
+                createdReverse,
+                deliveryCost,
+                discount,
+                totalValue,
+                estimatedDeliveryTime,
+                deliveryDate,
+                deliveryMode,
+                CustomerID.from(customer),
+                AddressID.from(address),
+                toEntryID(entries),
+                PaymentID.from(payment)
+        );
+        aReverse.validate(notification);
+
+        return notification.hasError() ? Left(notification) : create(aReverse);
     }
+
+    private Either<Notification, CreateReverseOutput> create(final Reverse aReverse) {
+        return Try(() -> this.reverseGateway.create(aReverse))
+                .toEither()
+                .bimap(Notification::create, CreateReverseOutput::from);
+    }
+
 
     private List<EntryID> toEntryID(final List<String> entries) {
         return entries.stream().map(EntryID::from).toList();

@@ -33,6 +33,19 @@ public class Pix extends AggregateRoot<PixID> {
         return new Pix(anId, aPspReferenceId, aReferenceId, aMessage);
     }
 
+    public static Pix with(
+            final PixID anId,
+            final String aPspReferenceId,
+            final String aReferenceId,
+            final String aMessage
+    ) {
+        return new Pix(anId, aPspReferenceId, aReferenceId, aMessage);
+    }
+
+    public static Pix with(final Pix aPix) {
+        return with(aPix.getId(), aPix.pspReferenceId, aPix.referenceId, aPix.message);
+    }
+
     @Override
     public void validate(final ValidationHandler handler) {
 

@@ -4,6 +4,7 @@ import br.com.makersweb.reverse.consumer.infrastructure.address.models.AddressRe
 import br.com.makersweb.reverse.consumer.infrastructure.customer.models.CustomerRequest;
 import br.com.makersweb.reverse.consumer.infrastructure.entries.models.EntriesRequest;
 import br.com.makersweb.reverse.consumer.infrastructure.payment.models.PaymentRequest;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
@@ -33,13 +34,21 @@ public record ReverseRequest(
         @JsonProperty("original_order") String originalOrder,
         @JsonProperty("reverse_order") String reverseOrder,
         @JsonProperty("type") String type,
-        @JsonProperty("created_order") LocalDateTime createdOrder,
-        @JsonProperty("created_reverse") LocalDateTime createdReverse,
+        @JsonProperty("created_order")
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        LocalDateTime createdOrder,
+        @JsonProperty("created_reverse")
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        LocalDateTime createdReverse,
         @JsonProperty("delivery_cost") BigDecimal deliveryCost,
         @JsonProperty("discount") BigDecimal discount,
         @JsonProperty("total_value") BigDecimal totalValue,
-        @JsonProperty("estimated_delivery_time") LocalDate estimatedDeliveryTime,
-        @JsonProperty("delivery_date") LocalDate deliveryDate,
+        @JsonProperty("estimated_delivery_time")
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        LocalDate estimatedDeliveryTime,
+        @JsonProperty("delivery_date")
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+        LocalDate deliveryDate,
         @JsonProperty("delivery_mode") String deliveryMode,
         @JsonProperty("customer") CustomerRequest customer,
         @JsonProperty("delivery_address") AddressRequest deliveryAddress,

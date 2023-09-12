@@ -1,5 +1,6 @@
 package br.com.makersweb.reverse.consumer.application.address.create;
 
+import br.com.makersweb.reverse.consumer.domain.address.Address;
 import br.com.makersweb.reverse.consumer.domain.address.AddressGateway;
 
 import java.util.Objects;
@@ -17,8 +18,15 @@ public class DefaultCreateAddressUseCase extends CreateAddressUseCase {
 
     @Override
     public CreateAddressOutput execute(final CreateAddressCommand aCommand) {
+        final var streetName = aCommand.streetName();
+        final var streetNumber = aCommand.streetNumber();
+        final var city = aCommand.city();
+        final var district = aCommand.district();
+        final var complement = aCommand.complement();
+        final var postalCode = aCommand.postalCode();
 
+        final var aAddress = Address.newAddress(streetName, streetNumber, city, district, complement, postalCode);
 
-        return null;
+        return CreateAddressOutput.from(this.addressGateway.create(aAddress));
     }
 }

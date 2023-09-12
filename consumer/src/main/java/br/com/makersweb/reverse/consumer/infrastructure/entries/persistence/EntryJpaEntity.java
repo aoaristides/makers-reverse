@@ -1,5 +1,6 @@
 package br.com.makersweb.reverse.consumer.infrastructure.entries.persistence;
 
+import br.com.makersweb.reverse.consumer.domain.entries.Entry;
 import br.com.makersweb.reverse.consumer.domain.entries.EntryID;
 import br.com.makersweb.reverse.consumer.infrastructure.reverse.persistence.ReverseJpaEntity;
 
@@ -40,7 +41,28 @@ public class EntryJpaEntity {
     @ManyToOne
     private ReverseJpaEntity reverse;
 
-    public EntryJpaEntity() {}
+    public EntryJpaEntity() {
+    }
+
+    private EntryJpaEntity(
+            String id,
+            String productCode,
+            String productName,
+            Integer quantity,
+            BigDecimal basePrice,
+            BigDecimal totalPrice,
+            String size,
+            String url
+    ) {
+        this.id = id;
+        this.productCode = productCode;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.basePrice = basePrice;
+        this.totalPrice = totalPrice;
+        this.size = size;
+        this.url = url;
+    }
 
     private EntryJpaEntity(final EntryID aEntryId) {
         this.id = aEntryId.getValue();
@@ -48,6 +70,32 @@ public class EntryJpaEntity {
 
     public static EntryJpaEntity from(final EntryID aEntryId) {
         return new EntryJpaEntity(aEntryId);
+    }
+
+    public static EntryJpaEntity from(final Entry aEntry) {
+        return new EntryJpaEntity(
+                aEntry.getId().getValue(),
+                aEntry.getProductCode(),
+                aEntry.getProductName(),
+                aEntry.getQuantity(),
+                aEntry.getBasePrice(),
+                aEntry.getTotalPrice(),
+                aEntry.getSize(),
+                aEntry.getUrl()
+        );
+    }
+
+    public Entry toAggregate() {
+        return Entry.with(
+                EntryID.from(getId()),
+                getProductCode(),
+                getProductName(),
+                getQuantity(),
+                getBasePrice(),
+                getTotalPrice(),
+                getSize(),
+                getUrl()
+        );
     }
 
     public String getId() {

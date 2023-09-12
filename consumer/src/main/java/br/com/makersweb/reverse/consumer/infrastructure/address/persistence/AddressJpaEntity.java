@@ -1,5 +1,6 @@
 package br.com.makersweb.reverse.consumer.infrastructure.address.persistence;
 
+import br.com.makersweb.reverse.consumer.domain.address.Address;
 import br.com.makersweb.reverse.consumer.domain.address.AddressID;
 
 import javax.persistence.Column;
@@ -35,7 +36,26 @@ public class AddressJpaEntity {
     @Column(name = "postal_code")
     private String postalCode;
 
-    public AddressJpaEntity() {}
+    public AddressJpaEntity() {
+    }
+
+    private AddressJpaEntity(
+            final String id,
+            final String streetName,
+            final String streetNumber,
+            final String city,
+            final String district,
+            final String complement,
+            final String postalCode
+    ) {
+        this.id = id;
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.city = city;
+        this.district = district;
+        this.complement = complement;
+        this.postalCode = postalCode;
+    }
 
     private AddressJpaEntity(final AddressID aAddressId) {
         this.id = aAddressId.getValue();
@@ -43,6 +63,30 @@ public class AddressJpaEntity {
 
     public static AddressJpaEntity from(final AddressID aAddressId) {
         return new AddressJpaEntity(aAddressId);
+    }
+
+    public static AddressJpaEntity from(final Address aAddress) {
+        return new AddressJpaEntity(
+                aAddress.getId().getValue(),
+                aAddress.getStreetName(),
+                aAddress.getStreetNumber(),
+                aAddress.getCity(),
+                aAddress.getDistrict(),
+                aAddress.getComplement(),
+                aAddress.getPostalCode()
+        );
+    }
+
+    public Address toAggregate() {
+        return Address.with(
+                AddressID.from(getId()),
+                getStreetName(),
+                getStreetNumber(),
+                getCity(),
+                getDistrict(),
+                getComplement(),
+                getPostalCode()
+        );
     }
 
     public String getId() {

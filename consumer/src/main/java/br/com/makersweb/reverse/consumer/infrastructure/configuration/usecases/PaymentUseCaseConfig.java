@@ -14,6 +14,7 @@ public class PaymentUseCaseConfig {
 
     private final PaymentGateway paymentGateway;
 
+
     public PaymentUseCaseConfig(final PaymentGateway paymentGateway) {
         this.paymentGateway = paymentGateway;
     }
