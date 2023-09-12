@@ -1,5 +1,6 @@
 package br.com.makersweb.reverse.consumer.application.reverse.retrieve.get;
 
+import br.com.makersweb.reverse.consumer.domain.entries.Entry;
 import br.com.makersweb.reverse.consumer.domain.entries.EntryID;
 import br.com.makersweb.reverse.consumer.domain.reverse.Reverse;
 import br.com.makersweb.reverse.consumer.domain.reverse.ReverseID;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author aaristides
  * @param id
  * @param ariginalOrder
  * @param reverseOrder
@@ -30,6 +30,7 @@ import java.util.List;
  * @param entries
  * @param payment
  * @param createdAt
+ * @author aaristides
  */
 public record ReverseOutput(
         ReverseID id,
@@ -68,6 +69,7 @@ public record ReverseOutput(
                 aReverse.getCustomer().getValue(),
                 aReverse.getDeliveryAddress().getValue(),
                 aReverse.getEntries().stream()
+                        .map(Entry::getId)
                         .map(EntryID::getValue)
                         .toList(),
                 aReverse.getPayment().getValue(),

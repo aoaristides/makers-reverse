@@ -2,6 +2,7 @@ package br.com.makersweb.reverse.consumer.infrastructure.reverse.persistence;
 
 import br.com.makersweb.reverse.consumer.domain.address.AddressID;
 import br.com.makersweb.reverse.consumer.domain.customer.CustomerID;
+import br.com.makersweb.reverse.consumer.domain.entries.Entry;
 import br.com.makersweb.reverse.consumer.domain.entries.EntryID;
 import br.com.makersweb.reverse.consumer.domain.payment.PaymentID;
 import br.com.makersweb.reverse.consumer.domain.reverse.Reverse;
@@ -84,7 +85,11 @@ public class ReverseJpaEntity {
     @Column(name = "created_at", nullable = false, columnDefinition = "DATETIME(6)")
     private Instant createdAt;
 
-    public ReverseJpaEntity() {
+    private ReverseJpaEntity() {
+    }
+
+    private ReverseJpaEntity(final ReverseID aReverseID) {
+        this.id = aReverseID.getValue();
     }
 
     private ReverseJpaEntity(
@@ -122,6 +127,10 @@ public class ReverseJpaEntity {
         this.deliveryAddress = deliveryAddress;
         this.payment = payment;
         this.createdAt = createdAt;
+    }
+
+    public static ReverseJpaEntity from(final ReverseID anId) {
+        return new ReverseJpaEntity(anId);
     }
 
     public static ReverseJpaEntity from(final Reverse aReverse) {
@@ -165,24 +174,22 @@ public class ReverseJpaEntity {
                 getDeliveryMode(),
                 getCustomerID(),
                 getAddressID(),
-                getEntryIDs(),
+                getDomainEntries(),
                 getPaymentID(),
                 getCreatedAt()
         );
     }
 
-    private void addEntry(final EntryID anId) {
-        this.entries.add(EntryJpaEntity.from(anId));
+    private void addEntry(final Entry aEntry) {
+        this.entries.add(EntryJpaEntity.from(aEntry));
     }
 
     private void removeEntry(final EntryID anId) {
         this.entries.remove(EntryJpaEntity.from(anId));
     }
 
-    public List<EntryID> getEntryIDs() {
-        return getEntries().stream()
-                .map(it -> EntryID.from(it.getId()))
-                .toList();
+    public List<Entry> getDomainEntries() {
+        return getEntries().stream().map(EntryJpaEntity::toAggregate).toList();
     }
 
     public CustomerID getCustomerID() {

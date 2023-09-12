@@ -6,6 +6,7 @@ import br.com.makersweb.reverse.consumer.infrastructure.reverse.persistence.Reve
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * @author aaristides
@@ -17,25 +18,25 @@ public class EntryJpaEntity {
     @Id
     private String id;
 
-    @Column(name = "product_code", nullable = false)
+    @Column(name = "product_code")
     private String productCode;
 
-    @Column(name = "product_name", nullable = false)
+    @Column(name = "product_name")
     private String productName;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "base_price", nullable = false)
+    @Column(name = "base_price")
     private BigDecimal basePrice;
 
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @Column(name = "size", nullable = false)
+    @Column(name = "size")
     private String size;
 
-    @Column(name = "url", nullable = false)
+    @Column(name = "url")
     private String url;
 
     @ManyToOne
@@ -45,14 +46,15 @@ public class EntryJpaEntity {
     }
 
     private EntryJpaEntity(
-            String id,
-            String productCode,
-            String productName,
-            Integer quantity,
-            BigDecimal basePrice,
-            BigDecimal totalPrice,
-            String size,
-            String url
+            final String id,
+            final String productCode,
+            final String productName,
+            final Integer quantity,
+            final BigDecimal basePrice,
+            final BigDecimal totalPrice,
+            final String size,
+            final String url,
+            final ReverseJpaEntity reverse
     ) {
         this.id = id;
         this.productCode = productCode;
@@ -62,6 +64,7 @@ public class EntryJpaEntity {
         this.totalPrice = totalPrice;
         this.size = size;
         this.url = url;
+        this.reverse = reverse;
     }
 
     private EntryJpaEntity(final EntryID aEntryId) {
@@ -81,7 +84,8 @@ public class EntryJpaEntity {
                 aEntry.getBasePrice(),
                 aEntry.getTotalPrice(),
                 aEntry.getSize(),
-                aEntry.getUrl()
+                aEntry.getUrl(),
+                Objects.nonNull(aEntry.getReverse()) ? ReverseJpaEntity.from(aEntry.getReverse()) : null
         );
     }
 
@@ -174,7 +178,8 @@ public class EntryJpaEntity {
         return reverse;
     }
 
-    public void setReverse(ReverseJpaEntity reverse) {
+    public EntryJpaEntity setReverse(ReverseJpaEntity reverse) {
         this.reverse = reverse;
+        return this;
     }
 }

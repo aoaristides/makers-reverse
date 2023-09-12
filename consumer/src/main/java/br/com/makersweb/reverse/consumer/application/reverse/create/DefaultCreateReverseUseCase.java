@@ -2,6 +2,8 @@ package br.com.makersweb.reverse.consumer.application.reverse.create;
 
 import br.com.makersweb.reverse.consumer.domain.address.AddressID;
 import br.com.makersweb.reverse.consumer.domain.customer.CustomerID;
+import br.com.makersweb.reverse.consumer.domain.entries.Entry;
+import br.com.makersweb.reverse.consumer.domain.entries.EntryGateway;
 import br.com.makersweb.reverse.consumer.domain.entries.EntryID;
 import br.com.makersweb.reverse.consumer.domain.payment.PaymentID;
 import br.com.makersweb.reverse.consumer.domain.reverse.Reverse;
@@ -21,9 +23,14 @@ import static io.vavr.API.Try;
 public class DefaultCreateReverseUseCase extends CreateReverseUseCase {
 
     private final ReverseGateway reverseGateway;
+    private final EntryGateway entryGateway;
 
-    public DefaultCreateReverseUseCase(final ReverseGateway reverseGateway) {
-        this.reverseGateway = Objects.requireNonNull(reverseGateway);
+    public DefaultCreateReverseUseCase(
+            final ReverseGateway reverseGateway,
+            final EntryGateway entryGateway
+    ) {
+        this.reverseGateway = reverseGateway;
+        this.entryGateway = entryGateway;
     }
 
     @Override
@@ -60,7 +67,7 @@ public class DefaultCreateReverseUseCase extends CreateReverseUseCase {
                 deliveryMode,
                 CustomerID.from(customer),
                 AddressID.from(address),
-                toEntryID(entries),
+                toEntries(entries),
                 PaymentID.from(payment)
         );
         aReverse.validate(notification);
@@ -74,8 +81,7 @@ public class DefaultCreateReverseUseCase extends CreateReverseUseCase {
                 .bimap(Notification::create, CreateReverseOutput::from);
     }
 
-
-    private List<EntryID> toEntryID(final List<String> entries) {
-        return entries.stream().map(EntryID::from).toList();
+    private List<Entry> toEntries(final List<String> entries) {
+        return this.entryGateway.findByIds(entries);
     }
 }

@@ -3,7 +3,7 @@ package br.com.makersweb.reverse.consumer.domain.reverse;
 import br.com.makersweb.reverse.consumer.domain.AggregateRoot;
 import br.com.makersweb.reverse.consumer.domain.address.AddressID;
 import br.com.makersweb.reverse.consumer.domain.customer.CustomerID;
-import br.com.makersweb.reverse.consumer.domain.entries.EntryID;
+import br.com.makersweb.reverse.consumer.domain.entries.Entry;
 import br.com.makersweb.reverse.consumer.domain.payment.PaymentID;
 import br.com.makersweb.reverse.consumer.domain.validation.ValidationHandler;
 
@@ -32,7 +32,7 @@ public class Reverse extends AggregateRoot<ReverseID> {
     private String deliveryMode;
     private CustomerID customer;
     private AddressID deliveryAddress;
-    private List<EntryID> entries;
+    private List<Entry> entries;
     private PaymentID payment;
     private Instant createdAt;
 
@@ -51,7 +51,7 @@ public class Reverse extends AggregateRoot<ReverseID> {
             final String aDeliveryMode,
             final CustomerID aCustomer,
             final AddressID aDeliveryAddress,
-            final List<EntryID> aEntries,
+            final List<Entry> aEntries,
             final PaymentID aPaymentID,
             final Instant aCreationDate
     ) {
@@ -88,12 +88,13 @@ public class Reverse extends AggregateRoot<ReverseID> {
             final String aDeliveryMode,
             final CustomerID aCustomer,
             final AddressID aDeliveryAddress,
-            final List<EntryID> aEntries,
+            final List<Entry> aEntries,
             final PaymentID aPaymentID
     ) {
         final var anId = ReverseID.unique();
         final var now = Instant.now();
         final var type = reverseTypeFromString(aType);
+        aEntries.stream().forEach(entry -> entry.addReverseID(anId));
         return new Reverse(
                 anId,
                 aOriginalOrder,
@@ -130,7 +131,7 @@ public class Reverse extends AggregateRoot<ReverseID> {
             final String aDeliveryMode,
             final CustomerID aCustomer,
             final AddressID aDeliveryAddress,
-            final List<EntryID> aEntries,
+            final List<Entry> aEntries,
             final PaymentID aPaymentID,
             final Instant aCreationDate
     ) {
@@ -245,7 +246,7 @@ public class Reverse extends AggregateRoot<ReverseID> {
         return deliveryAddress;
     }
 
-    public List<EntryID> getEntries() {
+    public List<Entry> getEntries() {
         return entries;
     }
 

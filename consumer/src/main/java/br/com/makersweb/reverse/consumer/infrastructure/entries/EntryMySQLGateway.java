@@ -7,6 +7,8 @@ import br.com.makersweb.reverse.consumer.infrastructure.entries.persistence.Entr
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author aaristides
  */
@@ -24,6 +26,15 @@ public class EntryMySQLGateway implements EntryGateway {
     public Entry create(final Entry aEntry) {
         log.info("Init method create entry by product - {}", aEntry.getProductCode());
         return save(aEntry);
+    }
+
+    @Override
+    public List<Entry> findByIds(final List<String> ids) {
+        log.info("Init method findByIds with total ids - {}", ids.size());
+        return this.repository.findByIds(ids)
+                .stream()
+                .map(EntryJpaEntity::toAggregate)
+                .toList();
     }
 
     private Entry save(final Entry aEntry) {

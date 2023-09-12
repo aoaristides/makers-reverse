@@ -169,7 +169,7 @@ public class ReverseController implements ReverseAPI {
                 ResponseEntity.unprocessableEntity().body(notification);
 
         final Function<CreateReverseOutput, ResponseEntity<?>> onSuccess = output ->
-                ResponseEntity.created(URI.create("/reverse/" + output.id())).body(output);
+                ResponseEntity.created(URI.create("/reverses/" + output.id())).body(output);
 
         return this.createReverseUseCase.execute(aReverseCommand)
                 .fold(onError, onSuccess);

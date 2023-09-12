@@ -1,6 +1,7 @@
 package br.com.makersweb.reverse.consumer.domain.entries;
 
 import br.com.makersweb.reverse.consumer.domain.AggregateRoot;
+import br.com.makersweb.reverse.consumer.domain.reverse.ReverseID;
 import br.com.makersweb.reverse.consumer.domain.validation.ValidationHandler;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class Entry extends AggregateRoot<EntryID> {
     private BigDecimal totalPrice;
     private String size;
     private String url;
+    private ReverseID reverse;
 
     private Entry(
             final EntryID anId,
@@ -77,6 +79,10 @@ public class Entry extends AggregateRoot<EntryID> {
         );
     }
 
+    public void addReverseID(final ReverseID aReverse) {
+       this.reverse = aReverse;
+    }
+
     @Override
     public void validate(final ValidationHandler handler) {
 
@@ -112,5 +118,9 @@ public class Entry extends AggregateRoot<EntryID> {
 
     public String getUrl() {
         return url;
+    }
+
+    public ReverseID getReverse() {
+        return reverse;
     }
 }
