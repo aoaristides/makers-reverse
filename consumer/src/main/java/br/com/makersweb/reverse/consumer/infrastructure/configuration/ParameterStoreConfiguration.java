@@ -11,12 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties
 public class ParameterStoreConfiguration {
 
-    @Value("${cloud.aws.credentials.access-key}")
-    private String accessKey;
-
-    @Value("${cloud.aws.credentials.secret-key}")
-    private String secretKey;
-
     @Value("${cloud.aws.sqs.endpoint}")
     private String endpointSQS;
 
@@ -43,22 +37,6 @@ public class ParameterStoreConfiguration {
 
     @Value("${reverse.by.pix.queue.name}")
     private String reverseByPixQueueName;
-
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
 
     public String getEndpointSQS() {
         return endpointSQS;
