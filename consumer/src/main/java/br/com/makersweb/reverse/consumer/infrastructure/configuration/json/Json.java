@@ -37,7 +37,8 @@ public enum Json {
                     DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                     DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES,
                     DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES,
-                    SerializationFeature.WRITE_DATES_AS_TIMESTAMPS
+                    SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
+                    SerializationFeature.FAIL_ON_EMPTY_BEANS
             )
             .modules(new JavaTimeModule(), new Jdk8Module(), afterburnerModule())
             .propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)

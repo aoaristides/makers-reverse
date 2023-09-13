@@ -23,7 +23,8 @@ public class ReverseMySQLGateway implements ReverseGateway {
 
     @Override
     public Reverse create(final Reverse aReverse) {
-        return save(aReverse);
+        final var save = save(aReverse);
+        return save;
     }
 
     @Override
