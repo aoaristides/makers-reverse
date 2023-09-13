@@ -25,6 +25,8 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+localstack/volume/**
  
 # Common credential files
 **/credentials.json
