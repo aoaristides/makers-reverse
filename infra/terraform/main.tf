@@ -1,7 +1,16 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
 provider "aws" {
-  version                 = "~> 5.16.2"
-  shared_credentials_files = ["~/.aws/credentials"]
-  profile                 = "terraform"
+  shared_credentials_files  = ["~/.aws/credentials"]
+  profile                   = "terraform"
+  region                    = "us-east-1"
 
   endpoints {
     apigateway     = "http://localhost:4566"
