@@ -7,6 +7,24 @@
 *.code-workspace
 # Local History for Visual Studio Code
 .history/
+
+# Compiled files
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+
+# Directories
+.terraform/
+
+# Ignored Terraform files
+*gitignore*.tf
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
  
 # Common credential files
 **/credentials.json
