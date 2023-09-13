@@ -1,0 +1,66 @@
+{
+	"original_order": "0000000002",
+	"reverse_order": "00000000102",
+	"type": "REVERSE",
+	"created_order": "2023-09-11 01:43:30",
+	"created_reverse": "2023-09-11 01:45:30",
+	"delivery_cost": 10.0,
+	"discount": 5.0,
+	"total_value": 100.0,
+	"estimated_delivery_time": "2023-09-20 12:00:00",
+	"delivery_date": "2023-09-20",
+	"delivery_mode": "STANDARD",
+	"customer": {
+		"name": "Joyce Miranda",
+		"document": "12345678909",
+		"phone": "41999219380",
+		"mail": "joycemiranda@gmail.com",
+		"birthday": "1996-08-16"
+	},
+	"delivery_address": {
+		"street_name": "Rua Eduardo Carlos Pereira",
+		"street_number": "4125",
+		"city": "Curitiba",
+		"district": "Novo Mundo",
+		"postal_code": "81020235",
+		"complement": "Apto 22 BL 11A"
+	},
+	"entries": [
+		{
+			"product_code": "1000123450",
+			"quantity": 10,
+			"product_name": "Cueca Box Lupo",
+			"base_price": 10.0,
+			"total_price": 100.0,
+			"size": "GG",
+			"url": "aaa"
+		},
+		{
+			"product_code": "10001233444",
+			"quantity": 10,
+			"product_name": "Calcinha Fio Dental",
+			"base_price": 10.0,
+			"total_price": 100.0,
+			"size": "GG",
+			"url": "aaa"
+		}
+	],
+	"payment": {
+		"type": "BILLET",
+		"amount": 100.0,
+		"billet": {
+			"expiration_date": "2023-10-10",
+			"days_to_expire": "23",
+			"link": "aaaa",
+			"bar_code": "121212121121212121212121212",
+			"account": {
+				"agency": "1234",
+				"account_number": "1234569",
+				"bank_number": "314",
+				"document": "12345678909",
+				"name": "Anderson",
+				"type": "Corrente"
+			}
+		}
+	}
+}
