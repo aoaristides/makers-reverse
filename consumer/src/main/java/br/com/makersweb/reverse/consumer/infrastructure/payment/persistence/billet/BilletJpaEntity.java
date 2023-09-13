@@ -67,7 +67,7 @@ public class BilletJpaEntity {
                 aBillet.getDaysToExpire(),
                 aBillet.getLink(),
                 aBillet.getBarCode(),
-                AccountJpaEntity.from(AccountID.unique())
+                AccountJpaEntity.from(aBillet.getAccount())
         );
     }
 
