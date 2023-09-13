@@ -1,5 +1,6 @@
 package br.com.makersweb.reverse.consumer.infrastructure.reverse.listener;
 
+import br.com.makersweb.reverse.consumer.infrastructure.reverse.models.ReverseRequest;
 import io.awspring.cloud.messaging.listener.annotation.SqsListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ public class ReverseMessageConsumer implements MessageConsumer {
 
     @Override
     @SqsListener(value = "${receive.reverse.order.queue.name}")
-    public void consume(final String input) {
+    public void consume(final ReverseRequest input) {
         if (input != null) {
             log.info("Receiver reverse success - {}.", input.toString());
         }

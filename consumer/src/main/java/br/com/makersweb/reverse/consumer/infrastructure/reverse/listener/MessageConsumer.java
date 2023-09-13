@@ -1,5 +1,6 @@
 package br.com.makersweb.reverse.consumer.infrastructure.reverse.listener;
 
+import br.com.makersweb.reverse.consumer.infrastructure.reverse.models.ReverseRequest;
 import io.awspring.cloud.messaging.config.annotation.NotificationMessage;
 
 /**
@@ -7,6 +8,6 @@ import io.awspring.cloud.messaging.config.annotation.NotificationMessage;
  */
 public interface MessageConsumer {
 
-    void consume(final String input);
+    void consume(final ReverseRequest input);
 
 }

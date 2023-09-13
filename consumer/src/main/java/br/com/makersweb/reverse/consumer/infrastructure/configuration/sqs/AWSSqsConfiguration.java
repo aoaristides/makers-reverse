@@ -5,7 +5,6 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import com.amazonaws.services.sqs.buffered.AmazonSQSBufferedAsyncClient;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.messaging.config.QueueMessageHandlerFactory;
 import io.awspring.cloud.messaging.config.SimpleMessageListenerContainerFactory;
@@ -26,9 +25,13 @@ import java.util.Collections;
 public class AWSSqsConfiguration {
 
     private AWSCredentialsProvider credentialsProvider;
+    private ObjectMapper mapper;
 
-    public AWSSqsConfiguration(@Autowired AWSCredentialsProvider credentialsProvider) {
+    public AWSSqsConfiguration(
+            @Autowired AWSCredentialsProvider credentialsProvider,
+            @Autowired ObjectMapper mapper) {
         this.credentialsProvider = credentialsProvider;
+        this.mapper = mapper;
     }
 
     @Bean
@@ -62,10 +65,7 @@ public class AWSSqsConfiguration {
         MappingJackson2MessageConverter jacksonMessageConverter = new MappingJackson2MessageConverter();
         jacksonMessageConverter.setSerializedPayloadClass(String.class);
         jacksonMessageConverter.setStrictContentTypeMatch(false);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        jacksonMessageConverter.setObjectMapper(objectMapper);
+        jacksonMessageConverter.setObjectMapper(mapper);
 
         PayloadMethodArgumentResolver payloadArgumentResolver = new PayloadMethodArgumentResolver(jacksonMessageConverter);
         factory.setArgumentResolvers(Collections.singletonList(payloadArgumentResolver));

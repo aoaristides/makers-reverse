@@ -25,6 +25,7 @@
         <org.springdoc.version>1.6.8</org.springdoc.version>
         <caelum-stella-core.version>2.1.6</caelum-stella-core.version>
         <vavr.version>0.10.4</vavr.version>
+        <com.fasterxml.jackson.version>2.15.2</com.fasterxml.jackson.version>
     </properties>
 
     <dependencies>
@@ -70,6 +71,17 @@
             <groupId>br.com.caelum.stella</groupId>
             <artifactId>caelum-stella-core</artifactId>
             <version>${caelum-stella-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-afterburner</artifactId>
+            <version>${com.fasterxml.jackson.version}</version>
         </dependency>
 
         <dependency>
